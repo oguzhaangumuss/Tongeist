@@ -2,14 +2,14 @@ import { Agent } from '@openserv-labs/sdk'
 import { AgentConfig } from '../types'
 
 export class AgentManager {
-  private agent: Agent
+  private agent: Agent<any>
   private currentAgentId: number
   private workspaceId: number
   private cachedAgents: AgentConfig[] = []
   private lastCacheTime: number = 0
   private cacheTimeout: number = 5 * 60 * 1000 // 5 minutes
 
-  constructor(agent: Agent, workspaceId: number, defaultAgentId: number) {
+  constructor(agent: Agent<any>, workspaceId: number, defaultAgentId: number) {
     this.agent = agent
     this.workspaceId = workspaceId
     this.currentAgentId = defaultAgentId

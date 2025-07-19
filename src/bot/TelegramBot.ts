@@ -10,7 +10,7 @@ import { AgentManager } from '../openserv/AgentManager'
 import { HashGenerator } from '../utils/HashGenerator'
 import { Environment } from '../config/Environment'
 
-export class SimpleTelegramBot extends Agent {
+export class SimpleTelegramBot extends Agent<any> {
   private bot: TelegramBot
   private workspaceId: number
   private licenseDatabase: LicenseDatabase
