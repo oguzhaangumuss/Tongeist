@@ -231,36 +231,53 @@ Example: /ask What is OpenServ?`
     // Handle /help command
     this.bot.onText(/\/help/, async (msg) => {
       const chatId = msg.chat.id
-      const currentAgent = await this.agentManager.getAgentName(this.agentManager.getCurrentAgentId())
       const helpText = `
-📖 Multi-Agent OpenServ Bot + License Oracle Help:
+🤖 TONGEIST - Smart License Verification Bot
 
-Current Agent: ${currentAgent}
+Hello! I'm Tongeist, providing license verification and AI assistant services.
 
-🤖 AI Commands:
-• /start - Start the bot
-• /ask [question] - Ask current agent
-• /agent - Switch agents
-• /agents - List all agents
+═══════════════════════════════════════════════════════════
 
-🆔 License Oracle Commands:
-• /setwallet EQCx...YtR9 - Set your TON wallet address
-• Send photo - Upload license image for OCR processing
-• /license - Check your license status
-• /licenses - View all processed licenses
-• /export - Export data in Excel format
+🚀 HOW TO GET STARTED?
+1. Use /setwallet to register your wallet address
+2. Send your license photo
+3. Get automatic verification results!
 
-⛓️  TON Blockchain Commands:
-• /wallet - Show TON wallet status and balance
+═══════════════════════════════════════════════════════════
 
-• /help - Show this help message
+🤖 AI ASSISTANT COMMANDS:
+/ask [question] - Ask me any question
+/agent - Choose from different expert assistants
+/agents - View all available assistants
 
-Examples:
-/ask Give information about OpenServ platform
-/ask What is artificial intelligence?
-/ask Can you help me with a project?
+💡 Expert Assistants:
+• Project Manager - Plan and organize tasks
+• Research Assistant - Gather information from internet
+• Software Developer - Write and analyze code
+• Content Editor - Write articles and text
+• Audio Transcriber - Convert audio recordings to text
 
-📸 To verify a license: Just send a photo of the license!
+═══════════════════════════════════════════════════════════
+
+🆔 LICENSE VERIFICATION:
+/setwallet [wallet-address] - Set your wallet address
+📸 Send Photo - Upload your license photo
+/license - Check your license status
+/wallet - View wallet information
+
+═══════════════════════════════════════════════════════════
+
+💡 USAGE EXAMPLES:
+
+🤖 AI Assistant:
+/ask What's the weather today?
+/agent → Select Research Assistant
+/ask What's Bitcoin's current price?
+
+🆔 License Verification:
+/setwallet UQAbc123...xyz
+📸 [Send license photo]
+✅ Get verification result
       `
       await this.bot.sendMessage(chatId, helpText)
     })

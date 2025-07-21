@@ -166,9 +166,8 @@ seed.txt
 bot-token.txt
 chat-ids.txt
 
-# OCR training data (keep eng.traineddata but ignore others)
+# OCR training data (Tesseract.js downloads automatically)
 *.traineddata
-!eng.traineddata
 
 # Test coverage
 coverage/
