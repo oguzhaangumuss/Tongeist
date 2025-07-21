@@ -236,14 +236,14 @@ Example: /ask What is OpenServ?`
 
 Hello! I'm Tongeist, providing license verification and AI assistant services.
 
-═══════════════════════════════════════════════════════════
+-------
 
 🚀 HOW TO GET STARTED?
 1. Use /setwallet to register your wallet address
 2. Send your license photo
 3. Get automatic verification results!
 
-═══════════════════════════════════════════════════════════
+-------
 
 🤖 AI ASSISTANT COMMANDS:
 /ask [question] - Ask me any question
@@ -257,7 +257,7 @@ Hello! I'm Tongeist, providing license verification and AI assistant services.
 • Content Editor - Write articles and text
 • Audio Transcriber - Convert audio recordings to text
 
-═══════════════════════════════════════════════════════════
+-------
 
 🆔 LICENSE VERIFICATION:
 /setwallet [wallet-address] - Set your wallet address
@@ -265,7 +265,7 @@ Hello! I'm Tongeist, providing license verification and AI assistant services.
 /license - Check your license status
 /wallet - View wallet information
 
-═══════════════════════════════════════════════════════════
+-------
 
 💡 USAGE EXAMPLES:
 
