@@ -45,8 +45,8 @@ export class AgentManager {
       console.log('📋 Raw agents response:', JSON.stringify(response, null, 2))
 
       // Parse the response and convert to our AgentConfig format
-      if (response && response.agents) {
-        this.cachedAgents = response.agents.map((agent: any) => ({
+      if (response && (response as any).agents) {
+        this.cachedAgents = (response as any).agents.map((agent: any) => ({
           id: agent.id,
           name: agent.name || `Agent ${agent.id}`,
           description: agent.description || agent.capabilitiesDescription || 'No description available'
