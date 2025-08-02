@@ -108,9 +108,9 @@ export class AgentManager {
     })
   }
 
-  async getAgentResponse(workspaceId: number, agentId: number, _originalQuestion: string, timeoutMs: number = 15000): Promise<string | null> {
+  async getAgentResponse(workspaceId: number, agentId: number, _originalQuestion: string, timeoutMs: number = 60000): Promise<string | null> {
     const startTime = Date.now()
-    const pollInterval = 2000 // Check every 2 seconds
+    const pollInterval = 5000 // Check every 5 seconds
     let attemptCount = 0
     
     console.log(`🔍 Starting to poll for agent response (timeout: ${timeoutMs}ms)`)
