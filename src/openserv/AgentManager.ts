@@ -126,10 +126,15 @@ export class AgentManager {
         
         if (chatMessages?.messages?.length > 0) {
           // Look for agent messages created after we started polling
-          const recentAgentMessages = chatMessages.messages.filter((msg: any) => 
-            msg.author === 'agent' && 
-            new Date(msg.createdAt).getTime() > startTime
-          )
+          const recentAgentMessages = chatMessages.messages.filter((msg: any) => {
+            const messageTime = new Date(msg.createdAt).getTime()
+            const isAgent = msg.author === 'agent'
+            const isRecent = messageTime > startTime - 10000 // Allow 10s buffer
+            
+            console.log(`🔍 Message: ${msg.message?.substring(0, 50)}... | Author: ${msg.author} | Time: ${new Date(msg.createdAt).toISOString()} | IsRecent: ${isRecent}`)
+            
+            return isAgent && isRecent
+          })
           
           console.log(`🤖 Found ${recentAgentMessages.length} recent agent messages`)
           

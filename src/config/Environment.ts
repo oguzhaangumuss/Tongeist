@@ -3,10 +3,20 @@ export class Environment {
     const requiredVars = ['TELEGRAM_BOT_TOKEN', 'OPENSERV_API_KEY', 'WORKSPACE_ID', 'AGENT_ID']
     const missingVars = requiredVars.filter(varName => !process.env[varName])
     
+    console.log('🔧 Environment Variables Debug:')
+    requiredVars.forEach(varName => {
+      const value = process.env[varName]
+      const isSet = !!value
+      const preview = value ? `${value.substring(0, 8)}...` : 'NOT SET'
+      console.log(`  ${varName}: ${isSet ? '✅' : '❌'} ${preview}`)
+    })
+    
     if (missingVars.length > 0) {
       console.error('❌ Missing required environment variables:', missingVars)
       process.exit(1)
     }
+    
+    console.log('✅ All required environment variables are set')
   }
 
   static get TELEGRAM_BOT_TOKEN(): string {

@@ -89,8 +89,12 @@ Example: /ask What is OpenServ?`
       this.bot.sendChatAction(chatId, 'typing')
 
       try {
-        console.log(`📝 Question received: \"${question}\"`)
-        console.log(`💬 Using marketplace agent ${this.agentManager.getCurrentAgentId()} via chat message...`)
+        console.log(`\n🚀 ===== PROCESSING QUESTION =====`)
+        console.log(`📝 Question: "${question}"`)
+        console.log(`🎯 Agent ID: ${this.agentManager.getCurrentAgentId()}`)
+        console.log(`🏢 Workspace: ${this.workspaceId}`)
+        console.log(`⏰ Timestamp: ${new Date().toISOString()}`)
+        console.log(`=======================================\n`)
         
         // Use sendChatMessage for marketplace agents
         const chatResponse = await this.agentManager.sendChatMessage(
