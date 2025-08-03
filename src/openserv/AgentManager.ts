@@ -94,18 +94,85 @@ export class AgentManager {
   }
 
   async sendChatMessage(workspaceId: number, agentId: number, message: string): Promise<any> {
-    return await this.agent.sendChatMessage({
-      workspaceId,
-      agentId,
-      message
-    })
+    console.log(`\n🌐 ===== OPENSERV API REQUEST =====`)
+    console.log(`📤 API: sendChatMessage`)
+    console.log(`🏢 Workspace ID: ${workspaceId}`)
+    console.log(`🤖 Agent ID: ${agentId}`)
+    console.log(`💬 Message: "${message}"`)
+    console.log(`⏰ Request Time: ${new Date().toISOString()}`)
+    console.log(`==================================\n`)
+    
+    try {
+      const response = await this.agent.sendChatMessage({
+        workspaceId,
+        agentId,
+        message
+      })
+      
+      console.log(`\n📥 ===== OPENSERV API RESPONSE =====`)
+      console.log(`✅ API: sendChatMessage`)
+      console.log(`📊 Response Type: ${typeof response}`)
+      console.log(`📋 Response Keys: ${response ? Object.keys(response).join(', ') : 'null'}`)
+      console.log(`🔍 Full Response:`)
+      console.log(JSON.stringify(response, null, 2))
+      console.log(`⏰ Response Time: ${new Date().toISOString()}`)
+      console.log(`===================================\n`)
+      
+      return response
+    } catch (error) {
+      console.log(`\n❌ ===== OPENSERV API ERROR =====`)
+      console.log(`🚫 API: sendChatMessage`)
+      console.log(`⚠️ Error Type: ${error instanceof Error ? error.constructor.name : typeof error}`)
+      console.log(`📝 Error Message: ${error instanceof Error ? error.message : String(error)}`)
+      console.log(`🔍 Full Error:`)
+      console.log(error)
+      console.log(`⏰ Error Time: ${new Date().toISOString()}`)
+      console.log(`=================================\n`)
+      throw error
+    }
   }
 
   async getChatMessages(workspaceId: number, agentId: number): Promise<any> {
-    return await this.agent.getChatMessages({
-      workspaceId,
-      agentId
-    })
+    console.log(`\n🌐 ===== OPENSERV API REQUEST =====`)
+    console.log(`📤 API: getChatMessages`)
+    console.log(`🏢 Workspace ID: ${workspaceId}`)
+    console.log(`🤖 Agent ID: ${agentId}`)
+    console.log(`⏰ Request Time: ${new Date().toISOString()}`)
+    console.log(`==================================\n`)
+    
+    try {
+      const response = await this.agent.getChatMessages({
+        workspaceId,
+        agentId
+      })
+      
+      console.log(`\n📥 ===== OPENSERV API RESPONSE =====`)
+      console.log(`✅ API: getChatMessages`)
+      console.log(`📊 Response Type: ${typeof response}`)
+      console.log(`📋 Response Keys: ${response ? Object.keys(response).join(', ') : 'null'}`)
+      console.log(`💬 Messages Count: ${response?.messages?.length || 0}`)
+      console.log(`🔍 Latest Messages (last 3):`)
+      if (response?.messages?.length > 0) {
+        const latestMessages = response.messages.slice(-3)
+        latestMessages.forEach((msg: any, index: number) => {
+          console.log(`  ${index + 1}. [${msg.author}] ${new Date(msg.createdAt).toISOString()}: ${msg.message?.substring(0, 100)}...`)
+        })
+      }
+      console.log(`⏰ Response Time: ${new Date().toISOString()}`)
+      console.log(`===================================\n`)
+      
+      return response
+    } catch (error) {
+      console.log(`\n❌ ===== OPENSERV API ERROR =====`)
+      console.log(`🚫 API: getChatMessages`)
+      console.log(`⚠️ Error Type: ${error instanceof Error ? error.constructor.name : typeof error}`)
+      console.log(`📝 Error Message: ${error instanceof Error ? error.message : String(error)}`)
+      console.log(`🔍 Full Error:`)
+      console.log(error)
+      console.log(`⏰ Error Time: ${new Date().toISOString()}`)
+      console.log(`=================================\n`)
+      throw error
+    }
   }
 
   async getAgentResponse(workspaceId: number, agentId: number, _originalQuestion: string, timeoutMs: number = 120000): Promise<string | null> {
