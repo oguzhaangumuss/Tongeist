@@ -1,7 +1,7 @@
 {
-  "name": "simple-telegram-openserv-bot",
+  "name": "tongeist-license-oracle",
   "version": "1.0.0",
-  "description": "Simple Telegram bot using OpenServ SDK",
+  "description": "Decentralized driver license verification oracle on TON blockchain with AI-powered OCR processing",
   "main": "dist/index.js",
   "scripts": {
     "start": "node dist/index.js",
@@ -10,12 +10,17 @@
     "clean": "rm -rf dist"
   },
   "keywords": [
+    "ton",
+    "blockchain",
+    "oracle",
+    "license",
+    "verification",
+    "ocr",
     "telegram",
-    "openserv",
-    "bot",
-    "simple"
+    "ai",
+    "tongeist"
   ],
-  "author": "openserv",
+  "author": "OzzieCrypt",
   "license": "MIT",
   "dependencies": {
     "@openserv-labs/sdk": "^1.6.0",
