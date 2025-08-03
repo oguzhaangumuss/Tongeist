@@ -108,7 +108,7 @@ export class AgentManager {
     })
   }
 
-  async getAgentResponse(workspaceId: number, agentId: number, _originalQuestion: string, timeoutMs: number = 60000): Promise<string | null> {
+  async getAgentResponse(workspaceId: number, agentId: number, _originalQuestion: string, timeoutMs: number = 120000): Promise<string | null> {
     const startTime = Date.now()
     const pollInterval = 5000 // Check every 5 seconds
     let attemptCount = 0
@@ -129,12 +129,29 @@ export class AgentManager {
           const recentAgentMessages = chatMessages.messages.filter((msg: any) => {
             const messageTime = new Date(msg.createdAt).getTime()
             const isAgent = msg.author === 'agent'
-            const isRecent = messageTime > startTime - 10000 // Allow 10s buffer
+            const isRecent = messageTime > startTime - 30000 // Allow 30s buffer for agent response time
             
-            console.log(`🔍 Message: ${msg.message?.substring(0, 50)}... | Author: ${msg.author} | Time: ${new Date(msg.createdAt).toISOString()} | IsRecent: ${isRecent}`)
+            console.log(`🔍 Message: ${msg.message?.substring(0, 50)}... | Author: ${msg.author} | Time: ${new Date(msg.createdAt).toISOString()} | StartTime: ${new Date(startTime).toISOString()} | IsRecent: ${isRecent}`)
             
             return isAgent && isRecent
           })
+          
+          // Also check for very recent messages (last 5 minutes) as fallback
+          if (recentAgentMessages.length === 0) {
+            const fallbackMessages = chatMessages.messages.filter((msg: any) => {
+              const messageTime = new Date(msg.createdAt).getTime()
+              const isAgent = msg.author === 'agent'
+              const isVeryRecent = messageTime > Date.now() - 300000 // Last 5 minutes
+              return isAgent && isVeryRecent
+            })
+            
+            if (fallbackMessages.length > 0) {
+              console.log(`🔄 No polling-time messages found, using latest from last 5 minutes`)
+              const latestFallback = fallbackMessages[fallbackMessages.length - 1]
+              console.log(`✅ Fallback response: "${latestFallback.message.substring(0, 100)}..."`)
+              return latestFallback.message
+            }
+          }
           
           console.log(`🤖 Found ${recentAgentMessages.length} recent agent messages`)
           
