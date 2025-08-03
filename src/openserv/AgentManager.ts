@@ -45,17 +45,12 @@ export class AgentManager {
       console.log('📋 Raw agents response:', JSON.stringify(response, null, 2))
 
       // Parse the response and convert to our AgentConfig format
-      if (response && (response as any).agents) {
-        this.cachedAgents = (response as any).agents.map((agent: any) => ({
-          id: agent.id,
-          name: agent.name || `Agent ${agent.id}`,
-          description: agent.description || agent.capabilitiesDescription || 'No description available'
-        }))
-      } else if (Array.isArray(response)) {
+      // GetAgentsResponse is directly an array, not wrapped in {agents: []}
+      if (Array.isArray(response)) {
         this.cachedAgents = response.map((agent: any) => ({
           id: agent.id,
           name: agent.name || `Agent ${agent.id}`,
-          description: agent.description || agent.capabilitiesDescription || 'No description available'
+          description: agent.capabilitiesDescription || 'No description available'  // Correct field name
         }))
       } else {
         console.log('⚠️  Unexpected response format, using fallback agents')
@@ -190,6 +185,7 @@ export class AgentManager {
         const chatMessages = await this.getChatMessages(workspaceId, agentId)
         
         console.log(`📬 Retrieved ${chatMessages?.messages?.length || 0} total messages`)
+        console.log(`🏷️  Agent Info: ${chatMessages?.agent?.name} (ID: ${chatMessages?.agent?.id})`)
         
         if (chatMessages?.messages?.length > 0) {
           // Look for agent messages created after we started polling

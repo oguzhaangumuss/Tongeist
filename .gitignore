@@ -188,3 +188,5 @@ pnpm-lock.yaml
 # Development tools
 .vscode/
 .idea/
+
+docs
