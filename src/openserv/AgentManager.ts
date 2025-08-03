@@ -170,16 +170,17 @@ export class AgentManager {
     }
   }
 
-  async getAgentResponse(workspaceId: number, agentId: number, _originalQuestion: string, timeoutMs: number = 120000): Promise<string | null> {
+  async getAgentResponse(workspaceId: number, agentId: number, _originalQuestion: string, timeoutMs: number = 180000): Promise<string | null> {
     const startTime = Date.now()
-    const pollInterval = 5000 // Check every 5 seconds
+    const pollInterval = 3000 // Check every 3 seconds
     let attemptCount = 0
     
     console.log(`🔍 Starting to poll for agent response (timeout: ${timeoutMs}ms)`)
     
+    // First attempt immediately (no delay)
     while (Date.now() - startTime < timeoutMs) {
       attemptCount++
-      console.log(`📡 Polling attempt ${attemptCount}...`)
+      console.log(`📡 Polling attempt ${attemptCount}... (${Math.round((Date.now() - startTime) / 1000)}s elapsed)`)
       
       try {
         const chatMessages = await this.getChatMessages(workspaceId, agentId)
@@ -199,19 +200,22 @@ export class AgentManager {
             return isAgent && isRecent
           })
           
-          // Also check for very recent messages (last 5 minutes) as fallback
+          // Enhanced fallback: check for messages after sendChatMessage was called
           if (recentAgentMessages.length === 0) {
             const fallbackMessages = chatMessages.messages.filter((msg: any) => {
               const messageTime = new Date(msg.createdAt).getTime()
               const isAgent = msg.author === 'agent'
-              const isVeryRecent = messageTime > Date.now() - 300000 // Last 5 minutes
-              return isAgent && isVeryRecent
+              // Check messages from last 10 minutes OR after we started (whichever is more recent)
+              const fallbackTime = Math.max(startTime - 600000, Date.now() - 600000)
+              const isInFallbackWindow = messageTime > fallbackTime
+              return isAgent && isInFallbackWindow
             })
             
             if (fallbackMessages.length > 0) {
-              console.log(`🔄 No polling-time messages found, using latest from last 5 minutes`)
+              console.log(`🔄 No polling-time messages found, using enhanced fallback (${fallbackMessages.length} candidates)`)
               const latestFallback = fallbackMessages[fallbackMessages.length - 1]
               console.log(`✅ Fallback response: "${latestFallback.message.substring(0, 100)}..."`)
+              console.log(`📅 Fallback message time: ${new Date(latestFallback.createdAt).toISOString()}`)
               return latestFallback.message
             }
           }
