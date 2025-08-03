@@ -184,3 +184,7 @@ pnpm-lock.yaml
 
 # TypeScript
 *.tsbuildinfo
+
+# Development tools
+.vscode/
+.idea/
