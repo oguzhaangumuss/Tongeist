@@ -189,4 +189,8 @@ pnpm-lock.yaml
 .vscode/
 .idea/
 
+# Claude IDE files
+.claude/
+.claude
+
 docs
